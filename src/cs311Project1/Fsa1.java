@@ -17,7 +17,6 @@ public class Fsa1 {
 		readFile(fsaInputFile);
 		inputParser();
 		System.out.println(fSAList);
-		
 
 		
 	}
@@ -45,6 +44,7 @@ public class Fsa1 {
 		int maxLine=input.size();
 		while (currentLine<maxLine)
 		{
+
 			FSA temp= new FSA();
 			
 			temp.setNumOfStates(Integer.parseInt(input.get((currentLine))));
@@ -52,7 +52,7 @@ public class Fsa1 {
 			//adding of the final states
 			int[] finalStates;
 			String[] finalStatesString=input.get(currentLine).split(" ");// gotta do string to int
-			
+			temp.setFinals(finalStatesString);
 			finalStates= new int[finalStatesString.length];// instantiate finalstates int array
 			for (int i=0;i<finalStatesString.length;i++)//fill in the final states
 			{
@@ -75,11 +75,15 @@ public class Fsa1 {
 			
 			currentLine++;
 			
+			//add
+			
 			while(input.get(currentLine).charAt(0)=='(')//add the transition functions, till no more transition functions are in the input
 			{
 				String[] transitionFunction;
 				String noParenthesis =input.get(currentLine).substring(1,input.get(currentLine).length()-1);
 				transitionFunction= noParenthesis.split(" ");//making transition function a set of three values
+				//test to string to ensure the arrays are set currectly
+
 				temp.addToTransitionFunctions(transitionFunction);
 				currentLine++;
 			}
@@ -87,13 +91,15 @@ public class Fsa1 {
 			while (!input.get(currentLine).equals(endCurrentFSA))// add all input strings or exit if done
 			{
 				temp.addToInputStrings(input.get(currentLine));
+
 				currentLine++;
 			}
 			currentLine++;
 
-			fSAList.add(temp);
-			temp.setPassOrFailSize();
 			
+			temp.setPassOrFailSize();
+			temp.runFSA();
+			fSAList.add(temp);
 			
 			
 			

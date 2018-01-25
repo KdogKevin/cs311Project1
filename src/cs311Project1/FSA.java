@@ -13,6 +13,7 @@ public class FSA {
 	private final int INITIALSTATE=0;
 	private String currentString;
 	private boolean[] passOrFail;
+	private String[] finalStateString;
 	
 	
 	public FSA()
@@ -20,7 +21,14 @@ public class FSA {
 		transitionFunctions= new ArrayList<String[]>();
 		inputStrings= new ArrayList<String>();
 	}
-	
+	public void runFSA()
+	{
+		for (int i=0;i<inputStrings.size();i++)
+		{
+			runFSA(i);
+		}
+		
+	}
 	public boolean runFSA(int inputIndex)
 	{
 		char currentSymbol;
@@ -43,20 +51,25 @@ public class FSA {
 			exit=true;
 			}
 		}
+		//System.out.println("current symbol before while should be 0 : "+currentSymbolIndex);
 		
 		while(!exit)
 		{
 			currentSymbol=currentString.charAt(currentSymbolIndex);//iterate to the next symbol in the function
 			state= getNextState(state,currentSymbol);
 			currentSymbolIndex++;
-						if (state>numOfStates||currentSymbolIndex==currentString.length())//exit= true if trap, or no more symbols left
+			//System.out.println("current state: "+state);
+			//System.out.println("currentSymbolIndex "+currentSymbolIndex);
+			if (state>numOfStates||currentSymbolIndex==currentString.length())//exit= true if trap, or no more symbols left
 			{
+				//System.out.println(currentString.length());
 				exit=true;
 			}
 			
 		}
 		if(exit)
 		{
+			//System.out.println("CurrentState= "+state);
 			if(currentSymbolIndex==currentString.length()&&finalStates[state])
 			{
 				passOrFail[inputIndex]=true;
@@ -93,8 +106,7 @@ public class FSA {
 	public void setNumOfStates(int tempNumOfStates)
 	{
 		
-		numOfStates= tempNumOfStates+1;
-
+		numOfStates= tempNumOfStates+1;//+1 for trap state
 	}
 	
 	public void setFinalStates(int[] tempFinalStates)
@@ -110,7 +122,6 @@ public class FSA {
 	public void setalphabet(char[] tempAlphabet)
 	{
 		alphabet=tempAlphabet;
-		
 		
 	}
 	
@@ -134,28 +145,41 @@ public class FSA {
 		inputStrings.add(tempInputString);
 		
 	}
+	public String toString()
+	{
+		return "\nNumber of states: " + numOfStates+ "\nFinal states: "+ Arrays.toString(finalStateString)
+		+"\nAlphabet: "+ Arrays.toString(alphabet)+ "\nTransition: \n"+ transitionsToString()+ 
+		"\nStrings:" + passFailString()+"\n";
+		}
+	public void setFinals(String[] tempFinalStates)
+	{
+		finalStateString=tempFinalStates;
+	}
+	
+	//to string method to show if something passed or not
+		public String passFailString()
+		{
+			String output="";
+			for (int i=0; i< amountOfInputs();i++)//iterate through the list of inputs
+			{
+				output+= "\nInput "+ i+") "+ inputStrings.get(i);
+				
+				for(int j=inputStrings.get(i).length();j<50; j++)
+				{
+					output+=" ";
+				}
+				output+="Result: "+ passOrFail[i];
+			}
+			return output;
+		}
+		
+
+
+	
 	public void setPassOrFailSize() 
 	{
 		passOrFail= new boolean[inputStrings.size()];
 	}
-	
-	public String toString()
-	{
-		return "\nNumber of states: " + numOfStates+ "\nFinal states: "+ Arrays.toString(finalStates)
-				+"\nAlphabet: "+ Arrays.toString(alphabet)+ "\nTransition: \n"+ transitionsToString()+ 
-				"\nStrings:" + passFailString()+"\n";
-	}
-	
-	public String passFailString()
-	{
-		String output="";
-		for (int i=0; i< amountOfInputs();i++)
-		{
-			output+= "\nInput"+ i+")"+ inputStrings.get(i)+ "        Result: "+ passOrFail[i];
-		}
-		return output;
-	}
-	
 	
 	
 	public String transitionsToString()
