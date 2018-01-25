@@ -17,15 +17,7 @@ public class Fsa1 {
 		readFile(fsaInputFile);
 		inputParser();
 		System.out.println(fSAList);
-		for (int i=0;i<fSAList.size();i++)
-		{
-			//System.out.println(i+" fsa");
-			for(int j=0; j<fSAList.get(i).amountOfInputs();j++)
-			{
-				System.out.println(j +" : "+fSAList.get(i).inputStrings.get(j) +" Result "+fSAList.get(i).runFSA(j));
-			}
-			
-		}
+		
 
 		
 	}
@@ -51,12 +43,10 @@ public class Fsa1 {
 		int currentLine=0;
 		
 		int maxLine=input.size();
-		//System.out.println("input size = "+input.size());
 		while (currentLine<maxLine)
 		{
-			//System.out.println("start");
 			FSA temp= new FSA();
-			System.out.println("nextFSA");
+			
 			temp.setNumOfStates(Integer.parseInt(input.get((currentLine))));
 			currentLine++;
 			//adding of the final states
@@ -85,15 +75,11 @@ public class Fsa1 {
 			
 			currentLine++;
 			
-			//add
-			
 			while(input.get(currentLine).charAt(0)=='(')//add the transition functions, till no more transition functions are in the input
 			{
 				String[] transitionFunction;
 				String noParenthesis =input.get(currentLine).substring(1,input.get(currentLine).length()-1);
 				transitionFunction= noParenthesis.split(" ");//making transition function a set of three values
-				//test to string to ensure the arrays are set currectly
-				//System.out.println(Arrays.toString(transitionFunction));
 				temp.addToTransitionFunctions(transitionFunction);
 				currentLine++;
 			}
@@ -101,15 +87,12 @@ public class Fsa1 {
 			while (!input.get(currentLine).equals(endCurrentFSA))// add all input strings or exit if done
 			{
 				temp.addToInputStrings(input.get(currentLine));
-				//System.out.println(input.get(currentLine));
 				currentLine++;
 			}
 			currentLine++;
-			
-			//System.out.println(currentLine);
-			//System.out.println("done");
+
 			fSAList.add(temp);
-			
+			temp.setPassOrFailSize();
 			
 			
 			
