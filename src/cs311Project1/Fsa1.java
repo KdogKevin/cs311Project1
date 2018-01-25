@@ -6,6 +6,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+* 
+* @author Kevin Nguyen
+* CPP CS311
+* Jan 25 2018
+*
+*/
 public class Fsa1 {
 
 	private final static String fsaInputFile = "src/fsaInput.txt";
@@ -20,6 +27,7 @@ public class Fsa1 {
 
 		
 	}
+	//read the file
 	private static List<String> readFile(String filename) {
 		
 		try {
@@ -37,6 +45,7 @@ public class Fsa1 {
 		}
 	}
 	
+	//parse the input and place into the correct fsa fields using a predetermined format
 	private static void inputParser()
 	{
 		int currentLine=0;
@@ -82,8 +91,7 @@ public class Fsa1 {
 				String[] transitionFunction;
 				String noParenthesis =input.get(currentLine).substring(1,input.get(currentLine).length()-1);
 				transitionFunction= noParenthesis.split(" ");//making transition function a set of three values
-				//test to string to ensure the arrays are set currectly
-
+				
 				temp.addToTransitionFunctions(transitionFunction);
 				currentLine++;
 			}

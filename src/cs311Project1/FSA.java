@@ -4,6 +4,14 @@ import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+* 
+* @author Kevin Nguyen
+* CPP CS311
+* Jan 25 2018
+*
+*/
+
 public class FSA {
 	private int numOfStates;
 	private boolean[] finalStates;
@@ -15,12 +23,14 @@ public class FSA {
 	private boolean[] passOrFail;
 	private String[] finalStateString;
 	
-	
+	// constructor
+
 	public FSA()
 	{
 		transitionFunctions= new ArrayList<String[]>();
 		inputStrings= new ArrayList<String>();
 	}
+	//runFSA through all input strings
 	public void runFSA()
 	{
 		for (int i=0;i<inputStrings.size();i++)
@@ -29,6 +39,7 @@ public class FSA {
 		}
 		
 	}
+	// method used to run the fsa on a specific inputString index
 	public boolean runFSA(int inputIndex)
 	{
 		char currentSymbol;
@@ -48,31 +59,26 @@ public class FSA {
 			}
 			else
 			{
-			exit=true;
+			exit=true;//exit the loop, the character is not in the alphabet
 			}
 		}
-		//System.out.println("current symbol before while should be 0 : "+currentSymbolIndex);
 		
 		while(!exit)
 		{
 			currentSymbol=currentString.charAt(currentSymbolIndex);//iterate to the next symbol in the function
 			state= getNextState(state,currentSymbol);
 			currentSymbolIndex++;
-			//System.out.println("current state: "+state);
-			//System.out.println("currentSymbolIndex "+currentSymbolIndex);
-			if (state>numOfStates||currentSymbolIndex==currentString.length())//exit= true if trap, or no more symbols left
+						if (state>numOfStates||currentSymbolIndex==currentString.length())//exit= true if trap, or no more symbols left
 			{
-				//System.out.println(currentString.length());
 				exit=true;
 			}
 			
 		}
-		if(exit)
+		if(exit)//determining if we are exiting because we are at the end or if we are trapped, or if any other reason
 		{
-			//System.out.println("CurrentState= "+state);
 			if(currentSymbolIndex==currentString.length()&&finalStates[state])
 			{
-				passOrFail[inputIndex]=true;
+				passOrFail[inputIndex]=true;//we aer in a final state set the string to pass
 				return true;
 			}
 			else
@@ -102,7 +108,7 @@ public class FSA {
 		return numOfStates-1;//state wasnt found, return 1 more than num of states, to indicate trap state
 	}
 	
-	
+	//set the num of states
 	public void setNumOfStates(int tempNumOfStates)
 	{
 		
@@ -118,18 +124,18 @@ public class FSA {
 			finalStates[tempFinalStates[i]]=true;
 		}
 	}
-	
+	//set the alpha bet accoridng to a char array
 	public void setalphabet(char[] tempAlphabet)
 	{
 		alphabet=tempAlphabet;
 		
 	}
-	
+	//set the transition functions to be followed
 	public void setTransistionFunctions(ArrayList<String[]> tempTransitionFunctions)
 	{
 		transitionFunctions=tempTransitionFunctions;
 	}
-	
+	//add to the transition function arraylist format is (p a q)
 	public void addToTransitionFunctions(String[] tempTransitionFunction)
 	{
 		transitionFunctions.add(tempTransitionFunction);
@@ -151,6 +157,7 @@ public class FSA {
 		+"\nAlphabet: "+ Arrays.toString(alphabet)+ "\nTransition: \n"+ transitionsToString()+ 
 		"\nStrings:" + passFailString()+"\n";
 		}
+	// set which states need to be identified by using a boolean
 	public void setFinals(String[] tempFinalStates)
 	{
 		finalStateString=tempFinalStates;
@@ -175,13 +182,13 @@ public class FSA {
 		
 
 
-	
+	//helper for to string
 	public void setPassOrFailSize() 
 	{
 		passOrFail= new boolean[inputStrings.size()];
 	}
 	
-	
+	//helper for to string
 	public String transitionsToString()
 	{
 		String transitionString="";
@@ -195,6 +202,7 @@ public class FSA {
 		return transitionString;
 
 	}
+	
 	public int amountOfInputs()
 	{
 		return inputStrings.size();
