@@ -5,10 +5,13 @@ import java.util.Arrays;
 
 /**
  * 
- * @author Kevin Nguyen CPP CS311 Jan 25 2018
+ * @author Kevin Nguyen 
+ * CPP CS311 
+ * Jan 25 2018
  *
  */
 
+//Run the program using the main method in the Runner class, ensure the file fsaInput.txt is available
 public class FSA {
 	private int numOfStates;
 	private boolean[] finalStates;

@@ -7,9 +7,13 @@ import java.util.List;
 
 /**
  * 
- * @author Kevin Nguyen CPP CS311 Jan 25 2018
+ * @author Kevin Nguyen 
+ * CPP CS311 
+ * Jan 25 2018
  *
  */
+
+// Run the program using the main method in this class, ensure the file fsaInput.txt is available
 public class Runner {
 
 	private final static String fsaInputFile = "src/fsaInput.txt";
